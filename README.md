@@ -1,0 +1,2 @@
+# Translete_pyqt_orc
+Translete_pyqt_orc
