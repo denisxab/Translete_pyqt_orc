@@ -192,7 +192,7 @@ class mywindow(QtWidgets.QMainWindow):
 
 
 def main():
-    #pyinstaller -F -w Translator.py
+    #pyinstaller -F -w Translator.pyw
     ################################
     app = QtWidgets.QApplication([])
     application = mywindow()

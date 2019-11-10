@@ -3,6 +3,7 @@ import os
 import re
 import json
 import requests
+# Transelte_Pyqt5
 
 class Editing_text:
     ############################################################
@@ -67,7 +68,7 @@ class Editing_text:
 
         # Если есть в хеши
         if text in self.__hash_lang:
-            return text 
+            return self.__hash_lang[text] 
 
         # Если нет то ищем в интеренете
         try:

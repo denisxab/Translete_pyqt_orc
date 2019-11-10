@@ -5,8 +5,6 @@ import json
 import mss
 import tkinter
 
-
-from win32api import GetSystemMetrics
 from PIL import Image, ImageTk
 from cv2 import resize, GaussianBlur, imwrite
 from numpy import array
@@ -22,7 +20,7 @@ except ModuleNotFoundError:
 class ORC():
     ####################################################
     def __init__(self) -> None:
-        self.__optimization()
+        self.__optimization() 
         self.__x, self.__y = 0, 0
         self.__all_cord = []
         self.__text_args = []
@@ -49,11 +47,14 @@ class ORC():
     ####################################################
     """Скриншот рабочего стола и поиск по нему"""
     def search_desktop(self) -> list:
+        # Поучение размера экрана
+        self.__Windows = tkinter.Tk()
         with mss.mss() as sct:
-            monitor = {"top": 0, "left": 0, "width": GetSystemMetrics(
-                0), "height": GetSystemMetrics(1)}
+            monitor = {"top": 0, "left": 0, "width": self.__Windows.winfo_screenwidth(), "height": self.__Windows.winfo_screenheight()}
             mss.tools.to_png(sct.grab(monitor).rgb, sct.grab(
                 monitor).size, output='Photo\\photo_t.png')
+        # Отчитска окна
+        self.__Windows.destroy()
         self.search_photo("Photo\\photo_t.png")
 
         return self.__text_args
@@ -63,6 +64,7 @@ class ORC():
         self.__init__()
 
         self.__Windows = tkinter.Tk()
+
         self.__Windows.overrideredirect(1)
         self.__Windows.wm_attributes('-topmost', 1)
         self.__paint = tkinter.Canvas(self.__Windows)
@@ -187,6 +189,6 @@ class ORC():
 
 
 if __name__ == "__main__":
-    #pyinstaller -F -w Orc.py
+    #pyinstaller -F -w Orc.pyw
     Or = ORC()
     Or.search_desktop()
