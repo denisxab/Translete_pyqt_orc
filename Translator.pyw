@@ -24,7 +24,7 @@ class mywindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         # setPlainText - удаляет и вставляет текст
-        self.ui.plainTextEdit.setPlainText(" Првие")
+        self.ui.plainTextEdit.setPlainText("")
         self.status = True # Перенная для выхода из потока
 
 
