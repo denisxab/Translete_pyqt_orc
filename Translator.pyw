@@ -62,9 +62,10 @@ class mywindow(QtWidgets.QMainWindow):
         ####################################################################
         
         ####################################################################
-        #       Изменение языка                                            #
+        #       Изменение comboBox                                         #
+        # Изменяет стиля отображения
+        self.ui.comboBox.currentIndexChanged.connect(self.__change_style_textEdit)
         # Изменяет язык перевода при выборе его в comboBox
-        
         self.ui.comboBox_2.currentIndexChanged.connect(self.__change_language)
         ####################################################################
 
@@ -90,6 +91,17 @@ class mywindow(QtWidgets.QMainWindow):
         self.Tr.set_lang_tr(self.ui.comboBox.currentText())
         text_1 = self.ui.textEdit.toPlainText()
         self.ui.textEdit.setPlainText(f"{text_1}_")
+
+
+    """Изменение стиля отображения текста"""
+    def __change_style_textEdit(self) -> None:
+        # Просто в html вставляем текст без стилей
+        if self.ui.comboBox.currentText() == "Text":
+            stock_text = self.ui.textEdit.toPlainText()
+            self.ui.textEdit.setHtml(stock_text)
+
+        elif self.ui.comboBox.currentText() == "Html":
+            pass
     ############################################################
 
 
@@ -134,9 +146,10 @@ class mywindow(QtWidgets.QMainWindow):
                 
     """Отображение ошибок"""
     def __cycle_write_sp(self):
+        self.__change_style_textEdit()
         self.ui.textEdit.setHtml(self.result_cycle_threading_Split)
         self.result_cycle_threading_Split = self.ui.textEdit.toHtml()
-
+        
     ############################################################
 
 
@@ -169,7 +182,6 @@ class mywindow(QtWidgets.QMainWindow):
                 # Если есть ошибка
                 if text_3:
                     self.__anbind_button()
-
                     # Выделение неправильных слов
                     # Изменять font-family:\'Nirmala UI\' при смене шрифта
                     self.ui.pushButton_6.setText(text_3[0])

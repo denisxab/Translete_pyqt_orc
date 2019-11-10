@@ -128,8 +128,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Transelte_Pyqt5"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "Ru"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "Eng"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "Html"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "Text"))
         self.pushButton.setText(_translate("MainWindow", "1"))
         self.pushButton_3.setText(_translate("MainWindow", "3"))
         self.pushButton_2.setText(_translate("MainWindow", "2"))

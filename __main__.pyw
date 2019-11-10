@@ -1,4 +1,4 @@
-#pyinstaller -F -w __main__.pyw && cd dist ren __main__.exe Translator.exe
+#pyinstaller -F -w __main__.pyw && cd dist && ren __main__.exe Translator.exe
 try:
     import os
     import sys

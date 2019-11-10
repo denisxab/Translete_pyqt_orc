@@ -133,7 +133,7 @@ class ORC():
                 if 'tesseract-ocr.exe' in os.listdir(os.getcwd()):
                     os.system('tesseract-ocr.exe')
                     return False
-                print('Для работы этой функции необходимо устоновить tesseract по ссылки\nhttps://github.com/UB-Mannheim/tesseract/wiki\nУкажите при устоновки следующий путь\nC:\\Program Files\\Tesseract-OCR')
+                print('Для работы этой функции необходимо устоновить tesseract по ссылки\nhttps://github.com/UB-Mannheim/tesseract/wiki\nУкажите при установки следующий путь\nC:\\Program Files\\Tesseract-OCR')
                 return False
 
             except pytesseract.pytesseract.TesseractError:
