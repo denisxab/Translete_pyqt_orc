@@ -76,7 +76,7 @@ class Editing_text:
             answer = requests.get('https://translate.yandex.net/api/v1.5/tr.json/translate',
                                     params={
                                         "key": self.__token,
-                                        'text': str(text),
+                                        'text': text,
                                         'format': 'plain',
                                         'lang': self.__lang_tr}).json()
 

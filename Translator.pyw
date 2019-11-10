@@ -64,7 +64,8 @@ class mywindow(QtWidgets.QMainWindow):
         ####################################################################
         #       Изменение языка                                            #
         # Изменяет язык перевода при выборе его в comboBox
-        self.ui.comboBox.currentIndexChanged.connect(self.__change_language)
+        
+        self.ui.comboBox_2.currentIndexChanged.connect(self.__change_language)
         ####################################################################
 
         ####################################################################
@@ -75,11 +76,7 @@ class mywindow(QtWidgets.QMainWindow):
         # Если ошибка с модулем распознования текста
         except ModuleNotFoundError:
             self.ui.pushButton_5.clicked.connect(lambda:self.ui.pushButton_5.setText("No ORC"))    
-    
-    #############################################################
 
-
-    ############################################################
     """Выключение программы"""
     def delit(self):
         self.status = False
