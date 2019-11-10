@@ -191,7 +191,7 @@ class mywindow(QtWidgets.QMainWindow):
 
 
 
-if __name__ == "__main__":
+def main():
     #pyinstaller -F -w Translator.py
     ################################
     app = QtWidgets.QApplication([])
@@ -202,3 +202,7 @@ if __name__ == "__main__":
     # Остонавливаем потоки и вызываем save_hash у Editing_text
     application.delit()
     sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()
