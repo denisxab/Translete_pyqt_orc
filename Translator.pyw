@@ -15,7 +15,7 @@ import requests
 from Editing_text import Editing_text
 from Orc import ORC
 
-
+from bs4 import BeautifulSoup
 
 class mywindow(QtWidgets.QMainWindow):
     ############################################################
@@ -23,9 +23,9 @@ class mywindow(QtWidgets.QMainWindow):
         super(mywindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # setPlainText - удаляет и вставляет текст
-        self.ui.plainTextEdit.setPlainText("")
         self.status = True # Перенная для выхода из потока
+        # setPlainText - удаляет и вставляет текст
+        self.ui.textEdit.setPlainText("")
 
 
         ####################################################################
@@ -36,26 +36,35 @@ class mywindow(QtWidgets.QMainWindow):
         self.result_cycle_threading_Translete = ""
         self.thr_1 = threading.Thread(target=self.__cycle_threading_Translete)
         self.thr_1.start()
-        # Функция которая записывает полученные данные из потока в окно
-        self.timer_tr = QtCore.QTimer()
-        self.timer_tr.timeout.connect(self.__cycle_write_Translete)
-        self.timer_tr.start(1000)
-        ####################################################################
-
-        ####################################################################
-        #       Изменение языка                                            #
-        # Изменяет язык перевода при выборе его в comboBox
-        self.ui.comboBox.currentIndexChanged.connect(self.__change_language)
         ####################################################################
 
         ####################################################################
         #        Орфография                                                #
         # Все кнопки для вставки текста
-        self.all_button = (self.ui.pushButton, self.ui.pushButton_2,
-               self.ui.pushButton_3, self.ui.pushButton_4)
+        self.all_button = (
+            self.ui.pushButton,
+            self.ui.pushButton_2,
+            self.ui.pushButton_3,
+            self.ui.pushButton_4)
         # Отдельынй поток который проверяет орфографию
+        self.result_cycle_threading_Split = ""
         self.thr_2 = threading.Thread(target=self.__cycle_threading_Split)
         self.thr_2.start()
+        # Отображение ошибок выделение их красным цветом
+        self.ui.pushButton_6.clicked.connect(self.__cycle_write_sp)
+        ####################################################################
+
+        ####################################################################
+        # Функция которая записывает полученные данные из потока в окно
+        self.timer_tr = QtCore.QTimer()
+        self.timer_tr.timeout.connect(self.__cycle_write_tr)
+        self.timer_tr.start(1000)
+        ####################################################################
+        
+        ####################################################################
+        #       Изменение языка                                            #
+        # Изменяет язык перевода при выборе его в comboBox
+        self.ui.comboBox.currentIndexChanged.connect(self.__change_language)
         ####################################################################
 
         ####################################################################
@@ -66,7 +75,8 @@ class mywindow(QtWidgets.QMainWindow):
         # Если ошибка с модулем распознования текста
         except ModuleNotFoundError:
             self.ui.pushButton_5.clicked.connect(lambda:self.ui.pushButton_5.setText("No ORC"))    
-    ############################################################
+    
+    #############################################################
 
 
     ############################################################
@@ -81,8 +91,8 @@ class mywindow(QtWidgets.QMainWindow):
     """Изменение языка перевода"""
     def __change_language(self) -> None:
         self.Tr.set_lang_tr(self.ui.comboBox.currentText())
-        text_1 = self.ui.plainTextEdit.toPlainText()
-        self.ui.plainTextEdit.setPlainText(f"{text_1}_")
+        text_1 = self.ui.textEdit.toPlainText()
+        self.ui.textEdit.setPlainText(f"{text_1}_")
     ############################################################
 
 
@@ -94,7 +104,7 @@ class mywindow(QtWidgets.QMainWindow):
         res = ""
         for x in self.Orc.search_desktop():
             res += f"{x}.\n"
-        self.ui.plainTextEdit.setPlainText(res)
+        self.ui.textEdit.setPlainText(res)
         # Развернуть окно
         self.showNormal()
     ############################################################
@@ -103,34 +113,43 @@ class mywindow(QtWidgets.QMainWindow):
     ############################################################
     """Потоковая функция работа с переводом"""
     def __cycle_threading_Translete(self) -> None:
-        # Цикл по получения текста из plainTextEdit
-        # и его перевод
         Cheak = ""
         while self.status:
             # Получаем текст для перевода
-            text_1 = self.ui.plainTextEdit.toPlainText()
+            text_1 = self.ui.textEdit.toPlainText()
+            
             if text_1 != Cheak:
                 Cheak = text_1
                 text_2 = self.Tr.transl_search(text_1)
                 # Записываем в переменную для функции "__cycle_write_Translete"
                 self.result_cycle_threading_Translete = text_2
-
             time.sleep(1)
+    ############################################################
 
+
+    ############################################################
     """Отображение перевода"""
-    def __cycle_write_Translete(self) -> None:
-        # Вставка текста из потока, так как в потоке
-        # нельзя вставить текст
+    def __cycle_write_tr(self):
         text_2 = self.ui.plainTextEdit_2.toPlainText()
         if text_2 != self.result_cycle_threading_Translete:
             self.ui.plainTextEdit_2.setPlainText(
                 self.result_cycle_threading_Translete)
+                
+    """Отображение ошибок"""
+    def __cycle_write_sp(self):
+        self.ui.textEdit.setHtml(self.result_cycle_threading_Split)
+        self.result_cycle_threading_Split = self.ui.textEdit.toHtml()
+
     ############################################################
 
 
     ############################################################
     """Отчистка кнопок от функция"""
     def __anbind_button(self) -> None:
+        # Делаем обычный цвет у текст
+        self.result_cycle_threading_Split = self.ui.textEdit.toHtml()
+        # Отчищаем текст у кнопки отображения
+        self.ui.pushButton_6.setText("")
         for button in self.all_button:
             button.setText("")
             try:
@@ -144,7 +163,7 @@ class mywindow(QtWidgets.QMainWindow):
         Cheak = ""
         while self.status:
             # Получение текста для орфографической проверки
-            text_1 = self.ui.plainTextEdit.toPlainText()
+            text_1 = self.ui.textEdit.toPlainText()
             if text_1 != Cheak:
                 # Изменяем Cheak
                 Cheak = text_1
@@ -152,8 +171,16 @@ class mywindow(QtWidgets.QMainWindow):
                 text_3 = self.Tr.spl_search(text_1)
                 # Если есть ошибка
                 if text_3:
-                    # Отчиска кнопок от прошлых значений
                     self.__anbind_button()
+
+                    # Выделение неправильных слов
+                    # Изменять font-family:\'Nirmala UI\' при смене шрифта
+                    self.ui.pushButton_6.setText(text_3[0])
+                    text_html = self.ui.textEdit.toHtml()
+                    text_html = text_html.replace(text_3[0],'</span><span style=" font-family:\'Nirmala UI\'; color:#ff0000;">{0}</span>'.format(text_3[0]))
+                    self.result_cycle_threading_Split = text_html
+                    # Отчиска кнопок от прошлых значений
+                    
                     # Если слов замены больше 4 то обрезаем до 4 слов замены
                     lenger = 4 if  len(text_3[1]) > 4 else len(text_3[1])
                     for word_args in range(lenger):
@@ -172,21 +199,22 @@ class mywindow(QtWidgets.QMainWindow):
 
     """Замена слова в тексте на слово которое указанно в кнопке"""
     def __cycle_write_Split(self, text_wrong: str, text_right: str) -> None:
-        #print(f"tw - {text_wrong}\t tr - {text_wrong}")
-        
-        # Делим текст по пробелам
-        text_1 = self.ui.plainTextEdit.toPlainText().split(" ")
 
+        # Делим текст по пробелам
+        text_1 = self.ui.textEdit.toPlainText().split(" ")
         for word in enumerate(text_1):
             # Если неправтльный слова есть в тексте то заменяем
             # По индексу  
             if text_wrong == word[1]:
                 text_1[word[0]] = text_right
-        # Вставляем новый текст в текстовое поле plainTextEdit
-        self.ui.plainTextEdit.setPlainText(" ".join(text_1))
+        # Вставляем новый текст в текстовое поле textEdit
+        text_1 = " ".join(text_1)
+        self.ui.textEdit.setPlainText(text_1)
 
         # Отчищаем всех кнопки
         self.__anbind_button()
+        # Чтобы текст изменялься цвет текста на обычный
+        self.__cycle_write_sp()
     ############################################################
 
 
