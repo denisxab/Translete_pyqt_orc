@@ -2,10 +2,9 @@
 import os
 import json
 
-import mss
 import tkinter
 
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageGrab
 from cv2 import resize, GaussianBlur, imwrite
 from numpy import array
 
@@ -47,16 +46,10 @@ class ORC():
     ####################################################
     """Скриншот рабочего стола и поиск по нему"""
     def search_desktop(self) -> list:
-        # Поучение размера экрана
-        self.__Windows = tkinter.Tk()
-        with mss.mss() as sct:
-            monitor = {"top": 0, "left": 0, "width": self.__Windows.winfo_screenwidth(), "height": self.__Windows.winfo_screenheight()}
-            mss.tools.to_png(sct.grab(monitor).rgb, sct.grab(
-                monitor).size, output='Photo\\photo_t.png')
-        # Отчитска окна
-        self.__Windows.destroy()
+        #Скриншот экрана
+        image_decktop = ImageGrab.grab() 
+        image_decktop.save("Photo\\photo_t.png")
         self.search_photo("Photo\\photo_t.png")
-
         return self.__text_args
 
     """Поиск по фото"""
@@ -97,12 +90,10 @@ class ORC():
     def __cap_box(self) -> list:
         imags_f = []
         for x in self.__all_cord:
-            with mss.mss() as sct:
-                monitor = {"top": x[0], "left": x[1],
-                           "width": x[2], "height": x[3]}
-                img = resize(array(sct.grab(monitor)), (0, 0), fx=10, fy=10)
-                img = GaussianBlur(img, (11, 11), 0)
-                imags_f.append(img)
+            monitor = ImageGrab.grab(bbox=(x[1], x[0], x[4], x[5]))  
+            img = resize(array(monitor), (0, 0), fx=10, fy=10)
+            img = GaussianBlur(img, (11, 11), 0)
+            imags_f.append(img)
         return imags_f
 
     """Распознование текста в выделеных областях"""
@@ -191,4 +182,6 @@ class ORC():
 if __name__ == "__main__":
     #pyinstaller -F -w Orc.pyw
     Or = ORC()
-    Or.search_desktop()
+    ph = Or.search_desktop()
+    print(ph)
+    

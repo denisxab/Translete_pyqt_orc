@@ -7,6 +7,8 @@ import time
 from functools import partial
 import threading
 
+
+
 from Front_end import Ui_MainWindow  # импорт нашего сгенерированного файла
 from PyQt5 import QtWidgets, QtCore
 
@@ -15,7 +17,7 @@ import requests
 from Editing_text import Editing_text
 from Orc import ORC
 
-from bs4 import BeautifulSoup
+
 
 class mywindow(QtWidgets.QMainWindow):
     ############################################################
@@ -99,6 +101,12 @@ class mywindow(QtWidgets.QMainWindow):
         if self.ui.comboBox.currentText() == "Text":
             stock_text = self.ui.textEdit.toPlainText()
             self.ui.textEdit.setHtml(stock_text)
+
+            # обрезаем все лишнее и остовляем только выделенный текст с ошибкой
+            a = self.result_cycle_threading_Split.split('<span style=" font-family:\'Nirmala UI\'; color:#ff0000;">')
+            if len(a) >= 2:
+                a = a[1].split("</span>")[0]
+                stock_text = stock_text.replace(a,'<span style=" font-family:\'Nirmala UI\'; color:#ff0000;">{0}</span>'.format(a))
 
         elif self.ui.comboBox.currentText() == "Html":
             pass
@@ -186,7 +194,7 @@ class mywindow(QtWidgets.QMainWindow):
                     # Изменять font-family:\'Nirmala UI\' при смене шрифта
                     self.ui.pushButton_6.setText(text_3[0])
                     text_html = self.ui.textEdit.toHtml()
-                    text_html = text_html.replace(text_3[0],'</span><span style=" font-family:\'Nirmala UI\'; color:#ff0000;">{0}</span>'.format(text_3[0]))
+                    text_html = text_html.replace(text_3[0],'<span style=" font-family:\'Nirmala UI\'; color:#ff0000;">{0}</span>'.format(text_3[0]))
                     self.result_cycle_threading_Split = text_html
                     # Отчиска кнопок от прошлых значений
                     
@@ -208,7 +216,6 @@ class mywindow(QtWidgets.QMainWindow):
 
     """Замена слова в тексте на слово которое указанно в кнопке"""
     def __cycle_write_Split(self, text_wrong: str, text_right: str) -> None:
-
         # Делим текст по пробелам
         text_1 = self.ui.textEdit.toPlainText().split(" ")
         for word in enumerate(text_1):
