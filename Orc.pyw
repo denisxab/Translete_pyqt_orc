@@ -4,9 +4,13 @@ import json
 
 import tkinter
 
+
 from PIL import Image, ImageTk, ImageGrab
 from cv2 import resize, GaussianBlur, imwrite
 from numpy import array
+
+import keyboard
+
 
 try:
     import pytesseract
@@ -44,14 +48,38 @@ class ORC():
 
 
     ####################################################
+    """Ожидание нажатия кнопки"""
+    def __scan_key__Thread(self) -> None:
+        if keyboard.is_pressed("alt + F1"):
+            self.__Windows.destroy()
+            image_decktop = ImageGrab.grab() 
+            image_decktop.save("Photo\\photo_t.png")
+            self.search_photo("Photo\\photo_t.png")
+        # Закрываем
+        elif keyboard.is_pressed("F2"):
+            self.__Windows.destroy()
+
+        else:
+            self.__Windows.after(50, self.__scan_key__Thread) 
+        
+            
+            
     """Скриншот рабочего стола и поиск по нему"""
     def search_desktop(self) -> list:
         #Скриншот экрана
-        image_decktop = ImageGrab.grab() 
-        image_decktop.save("Photo\\photo_t.png")
-        self.search_photo("Photo\\photo_t.png")
-        return self.__text_args
+        self.__Windows = tkinter.Tk()
+        self.__Windows.wm_attributes('-topmost', 1)
 
+    
+        lab = tkinter.Label(self.__Windows, text = "Start = alt + F1\nStop = F2")
+        lab.pack()
+
+        # Ожидает нажатия кнопки 'alt + F1' 
+        self.__scan_key__Thread()
+        self.__Windows.mainloop()
+
+        return self.__text_args
+    
     """Поиск по фото"""
     def search_photo(self, name_photo: str) -> list:
         self.__init__()

@@ -5,7 +5,7 @@ import json
 import time
 
 from functools import partial
-import threading
+from threading import Thread
 
 
 
@@ -36,7 +36,7 @@ class mywindow(QtWidgets.QMainWindow):
         # Переводчик
         # переменна для вставки текста из потока
         self.result_cycle_threading_Translete = ""
-        self.thr_1 = threading.Thread(target=self.__cycle_threading_Translete)
+        self.thr_1 = Thread(target=self.__cycle_threading_Translete)
         self.thr_1.start()
         ####################################################################
 
@@ -50,7 +50,7 @@ class mywindow(QtWidgets.QMainWindow):
             self.ui.pushButton_4)
         # Отдельынй поток который проверяет орфографию
         self.result_cycle_threading_Split = ""
-        self.thr_2 = threading.Thread(target=self.__cycle_threading_Split)
+        self.thr_2 = Thread(target=self.__cycle_threading_Split)
         self.thr_2.start()
         # Отображение ошибок выделение их красным цветом
         self.ui.pushButton_6.clicked.connect(self.__cycle_write_sp)
