@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(938, 646)
+        MainWindow.resize(850, 650)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setContentsMargins(3, 2, 3, 2)
         self.horizontalLayout.setSpacing(20)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
@@ -35,13 +35,23 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
         self.groupBox.setSizePolicy(sizePolicy)
-        self.groupBox.setStyleSheet("background-color:rgb(255, 235, 160);")
+        self.groupBox.setStyleSheet("background-color:rgb(255, 220, 97);\n"
+"border-radius: 6px;")
         self.groupBox.setTitle("")
         self.groupBox.setObjectName("groupBox")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox)
+        self.verticalLayout.setContentsMargins(-1, -1, 9, 6)
+        self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName("verticalLayout")
         self.comboBox = QtWidgets.QComboBox(self.groupBox)
-        self.comboBox.setStyleSheet("background-color:rgb(212, 212, 212)")
+        self.comboBox.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 3px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"font: 14px;\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 3px;")
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
@@ -51,42 +61,120 @@ class Ui_MainWindow(object):
         font.setFamily("Nirmala UI")
         font.setPointSize(13)
         self.textEdit.setFont(font)
-        self.textEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textEdit.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"border-radius: 6px;")
         self.textEdit.setObjectName("textEdit")
         self.verticalLayout.addWidget(self.textEdit)
         self.gridLayout_3 = QtWidgets.QGridLayout()
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton.setStyleSheet("background-color:rgb(212, 212, 212)")
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton.setFont(font)
+        self.pushButton.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 10px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 3px;")
         self.pushButton.setObjectName("pushButton")
         self.gridLayout_3.addWidget(self.pushButton, 1, 0, 1, 1)
         self.pushButton_3 = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton_3.setStyleSheet("background-color:rgb(212, 212, 212)")
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton_3.setFont(font)
+        self.pushButton_3.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 10px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 3px;")
         self.pushButton_3.setObjectName("pushButton_3")
         self.gridLayout_3.addWidget(self.pushButton_3, 2, 0, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton_2.setStyleSheet("background-color:rgb(212, 212, 212)")
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 10px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 3px;")
         self.pushButton_2.setObjectName("pushButton_2")
         self.gridLayout_3.addWidget(self.pushButton_2, 1, 1, 1, 1)
         self.pushButton_4 = QtWidgets.QPushButton(self.groupBox)
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton_4.setFont(font)
         self.pushButton_4.setAutoFillBackground(False)
-        self.pushButton_4.setStyleSheet("background-color:rgb(212, 212, 212)")
+        self.pushButton_4.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 10px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 3px;")
         self.pushButton_4.setObjectName("pushButton_4")
         self.gridLayout_3.addWidget(self.pushButton_4, 2, 1, 1, 1)
         self.pushButton_6 = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton_6.setStyleSheet("background-color:rgb(212, 212, 212)")
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton_6.setFont(font)
+        self.pushButton_6.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 10px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 6px;")
         self.pushButton_6.setObjectName("pushButton_6")
         self.gridLayout_3.addWidget(self.pushButton_6, 0, 0, 1, 2)
         self.verticalLayout.addLayout(self.gridLayout_3)
         self.horizontalLayout.addWidget(self.groupBox)
         self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox_2.setStyleSheet("background-color:rgb(255, 235, 160);")
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(12)
+        self.groupBox_2.setFont(font)
+        self.groupBox_2.setStyleSheet("background-color:rgb(255, 220, 97);\n"
+"border-radius: 6px;")
         self.groupBox_2.setTitle("")
         self.groupBox_2.setObjectName("groupBox_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.groupBox_2)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.comboBox_2 = QtWidgets.QComboBox(self.groupBox_2)
-        self.comboBox_2.setStyleSheet("background-color:rgb(212, 212, 212)")
+        self.comboBox_2.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 3px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"font: 14px;\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 3px;")
         self.comboBox_2.setObjectName("comboBox_2")
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
@@ -101,21 +189,35 @@ class Ui_MainWindow(object):
         font.setFamily("Nirmala UI")
         font.setPointSize(13)
         self.plainTextEdit_2.setFont(font)
-        self.plainTextEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.plainTextEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"border-radius: 6px;")
         self.plainTextEdit_2.setBackgroundVisible(True)
         self.plainTextEdit_2.setObjectName("plainTextEdit_2")
         self.verticalLayout_2.addWidget(self.plainTextEdit_2)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.pushButton_5 = QtWidgets.QPushButton(self.groupBox_2)
-        self.pushButton_5.setStyleSheet("background-color:rgb(212, 212, 212)")
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.pushButton_5.setFont(font)
+        self.pushButton_5.setStyleSheet("background-color: rgb(115, 123, 132);\n"
+"border-width: 2px;\n"
+"border-radius: 10px;\n"
+"border-color: rgb(255, 235, 160);\n"
+"color: rgb(255, 255, 255);\n"
+"min-width: 10em;\n"
+"padding: 6px;")
         self.pushButton_5.setObjectName("pushButton_5")
         self.gridLayout.addWidget(self.pushButton_5, 0, 0, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout)
         self.horizontalLayout.addWidget(self.groupBox_2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 938, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 850, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -130,6 +232,11 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Transelte_Pyqt5"))
         self.comboBox.setItemText(0, _translate("MainWindow", "Html"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Text"))
+        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Nirmala UI\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.pushButton.setText(_translate("MainWindow", "1"))
         self.pushButton_3.setText(_translate("MainWindow", "3"))
         self.pushButton_2.setText(_translate("MainWindow", "2"))
