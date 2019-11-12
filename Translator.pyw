@@ -91,8 +91,13 @@ class mywindow(QtWidgets.QMainWindow):
     """Изменение языка перевода"""
     def __change_language(self) -> None:
         self.Tr.set_lang_tr(self.ui.comboBox_2.currentText())
-        text_1 = self.ui.textEdit.toPlainText()
-        self.ui.textEdit.setPlainText(f"{text_1}_")
+
+        text_one_edit = self.ui.textEdit.toPlainText()
+        text_new_tr = self.Tr.transl_search(text_one_edit)
+
+        self.result_cycle_threading_Translete = text_new_tr
+        self.ui.plainTextEdit_2.setPlainText(text_new_tr)
+
 
 
     """Изменение стиля отображения текста"""

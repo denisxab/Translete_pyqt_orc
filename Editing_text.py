@@ -68,7 +68,9 @@ class Editing_text:
 
         # Если есть в хеши
         if text in self.__hash_lang:
-            return self.__hash_lang[text] 
+            # Чтобы ключ и значение были разыне
+            if self.__hash_lang[text]  != text:
+                return self.__hash_lang[text] 
 
         # Если нет то ищем в интеренете
         try:
