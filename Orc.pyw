@@ -9,7 +9,7 @@ from PIL import Image, ImageTk, ImageGrab
 from cv2 import resize, GaussianBlur, imwrite
 from numpy import array
 
-import keyboard
+from keyboard  import is_pressed
 
 
 try:
@@ -50,13 +50,13 @@ class ORC():
     ####################################################
     """Ожидание нажатия кнопки"""
     def __scan_key__Thread(self) -> None:
-        if keyboard.is_pressed("alt + F1"):
+        if is_pressed("alt + F1"):
             self.__Windows.destroy()
             image_decktop = ImageGrab.grab() 
             image_decktop.save("Photo\\photo_t.png")
             self.search_photo("Photo\\photo_t.png")
         # Закрываем
-        elif keyboard.is_pressed("F2"):
+        elif is_pressed("F2"):
             self.__Windows.destroy()
 
         else:
