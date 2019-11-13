@@ -117,11 +117,20 @@ class Editing_text:
 
     ##################################
     """Варианты замены не правильного слова"""
-    def __control_spelling(self, text: str) -> tuple:
+    def __control_spelling(self, text: str) -> list:
+
+
         # Если есть в хеши то не ищем в интернете
+        all_wrong_text = []
         for x in text.split(" "):
             if x in self.__hash_spel:
-                return (x, self.__hash_spel[x])
+                # Если в предложение есть несколько слов с ошибкой 
+                # то возвращаем все слова
+                res = (x, self.__hash_spel[x])
+                all_wrong_text.append(res)
+        if all_wrong_text:
+            return all_wrong_text
+
 
         # Если нет то ищем в интеренте
         try:
@@ -136,49 +145,44 @@ class Editing_text:
                 for wodr_x in respons:
                     if not wodr_x['word'] in self.__hash_spel:
                         self.__hash_spel[wodr_x['word']] = wodr_x['s']
-
-                return (respons[0]['word'], respons[0]['s'])
+                # Отправляем двумерный массив
+                return [[respons[0]['word'], respons[0]['s']]]
        
         # Если нет интеренета
         except requests.exceptions.ConnectionError: 
             return False
 
     """Связка для орфографии"""
-    def spl_search(self, text: str) -> tuple:
+    def spl_search(self, text: str) -> list:
         text = text.split(".")
-        tmp_spl = tuple()
+        # Переменная для всех неправильных слов в тексте
+        return_spl = {}
         for proposal in text:
+            # Обрезаем лишнии пробелы
             proposal = re.sub(" +", " ", proposal.strip())
             if not proposal in self.__hash_spel_all_text:
-                tmp_spl = self.__control_spelling(proposal)
-                if tmp_spl:
-                    return tmp_spl
-                self.__hash_spel_all_text.add(proposal)
-        return tmp_spl
-
-        """
-        for x in text:
-            # Если нет в хеши предложений с ошибкой
-            if not x in self.__hash_spel_all_text:
-                # Разделяем преложение по словам и проверяем их
-                for list_x in x.split(" "):
-                    # Если нет в хеши слов с ошибками то ищем в интеренте
-                    if not list_x in self.__hash_spel:
-                        tmp_spl = self.__control_spelling(list_x)
-                        if tmp_spl:
-                            # Записываем в хешь новое неправильное слово
-                            self.__hash_spel[tmp_spl[0]] = tmp_spl[1]
-                            return tmp_spl
-                    # Если есть в хеши то возвращаем имеющийся список
-                    else:
-                        return (list_x, self.__hash_spel[list_x])
-                    self.__hash_spel_all_text.add(x)
-        """
+                # Временная пременная для результата функции
+                tmp_spl_res = self.__control_spelling(proposal)
+                # Если в слове есть ошибки
+                if tmp_spl_res:
+                    # Записываем эти слова в общую кучу
+                    for key,value in tmp_spl_res:
+                        return_spl[key] = value
+                # Если слово предложение без ошибки то пропускаем
+                else:
+                    # Временный хешь с предложениями без ошибок
+                    self.__hash_spel_all_text.add(proposal)
+        
+        # конвертируем словарь в список для того чтобы небыло повторений
+        return_spl =[(key,value) for key, value in return_spl.items()]
+        return return_spl
     ##################################
 
 
 if __name__ == "__main__":
     Tr = Editing_text(None, "en", "ru")
-    text_1 = "Приве"
-    Tr.spl_search(text_1)
+    text_1 = " Приве умнек. умнек Приве "
+    a = Tr.spl_search(text_1)
+    print(a)
     Tr.transl_search(text_1)
+    Tr.Save_hash()
