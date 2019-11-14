@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=C0103
+# pylint: disable=C0111
+# pylint: disable=C0301
+# pylint: disable=R0902
+# pylint: disable=W0105
+
 import os
 import json
 
 import tkinter
 
-
 from PIL import Image, ImageTk, ImageGrab
 from cv2 import resize, GaussianBlur, imwrite
 from numpy import array
 
-from keyboard  import is_pressed
+from keyboard import is_pressed
 
 
 try:
@@ -23,7 +28,7 @@ except ModuleNotFoundError:
 class ORC():
     ####################################################
     def __init__(self) -> None:
-        self.__optimization() 
+        self.__optimization()
         self.__x, self.__y = 0, 0
         self.__all_cord = []
         self.__text_args = []
@@ -38,21 +43,22 @@ class ORC():
             raise ModuleNotFoundError
     ####################################################
 
-
     ####################################################
     """Для получения результата когда будет .exe"""
-    def __writ_result(self,list_odject:list) -> None:
-         with open('res_orc.json', 'w', encoding='utf-8') as json_writ:
-            json.dump(list_odject, json_writ,sort_keys=False, ensure_ascii=False)
-    ####################################################
 
+    def __writ_result(self, list_odject: list) -> None:
+        with open('res_orc.json', 'w', encoding='utf-8') as json_writ:
+            json.dump(list_odject, json_writ,
+                      sort_keys=False, ensure_ascii=False)
+    ####################################################
 
     ####################################################
     """Ожидание нажатия кнопки"""
+
     def __scan_key__Thread(self) -> None:
         if is_pressed("alt + F1"):
             self.__Windows.destroy()
-            image_decktop = ImageGrab.grab() 
+            image_decktop = ImageGrab.grab()
             image_decktop.save("Photo\\photo_t.png")
             self.search_photo("Photo\\photo_t.png")
         # Закрываем
@@ -60,27 +66,26 @@ class ORC():
             self.__Windows.destroy()
 
         else:
-            self.__Windows.after(50, self.__scan_key__Thread) 
-        
-            
-            
+            self.__Windows.after(50, self.__scan_key__Thread)
+
     """Скриншот рабочего стола и поиск по нему"""
+
     def search_desktop(self) -> list:
-        #Скриншот экрана
+        # Скриншот экрана
         self.__Windows = tkinter.Tk()
         self.__Windows.wm_attributes('-topmost', 1)
 
-    
-        lab = tkinter.Label(self.__Windows, text = "Start = alt + F1\nStop = F2")
+        lab = tkinter.Label(self.__Windows, text="Start = alt + F1\nStop = F2")
         lab.pack()
 
-        # Ожидает нажатия кнопки 'alt + F1' 
+        # Ожидает нажатия кнопки 'alt + F1'
         self.__scan_key__Thread()
         self.__Windows.mainloop()
 
         return self.__text_args
-    
+
     """Поиск по фото"""
+
     def search_photo(self, name_photo: str) -> list:
         self.__init__()
 
@@ -90,7 +95,8 @@ class ORC():
         self.__Windows.wm_attributes('-topmost', 1)
         self.__paint = tkinter.Canvas(self.__Windows)
 
-        self.__imgas_ITk = ImageTk.PhotoImage(image = Image.open(r'{}'.format(name_photo)))
+        self.__imgas_ITk = ImageTk.PhotoImage(
+            image=Image.open(r'{}'.format(name_photo)))
 
         self.__Windows.geometry('{}x{}+0+0'.format(
             self.__imgas_ITk._PhotoImage__size[0],
@@ -98,7 +104,8 @@ class ORC():
 
         self.__paint['width'] = self.__imgas_ITk._PhotoImage__size[0]
         self.__paint['height'] = self.__imgas_ITk._PhotoImage__size[1]
-        self.__paint.create_image(0, 0, anchor=tkinter.NW, image=self.__imgas_ITk)
+        self.__paint.create_image(
+            0, 0, anchor=tkinter.NW, image=self.__imgas_ITk)
         self.__paint.pack()
 
         self.__Windows.update()
@@ -111,20 +118,21 @@ class ORC():
 
         return self.__text_args
     ####################################################
-    
 
     ####################################################
     """Получение фоток из выделеных областей"""
+
     def __cap_box(self) -> list:
         imags_f = []
         for x in self.__all_cord:
-            monitor = ImageGrab.grab(bbox=(x[1], x[0], x[4], x[5]))  
+            monitor = ImageGrab.grab(bbox=(x[1], x[0], x[4], x[5]))
             img = resize(array(monitor), (0, 0), fx=10, fy=10)
             img = GaussianBlur(img, (11, 11), 0)
             imags_f.append(img)
         return imags_f
 
     """Распознование текста в выделеных областях"""
+
     def __exit_func(self, event) -> None:
         del event
         self.__Windows.unbind('<B1-Motion>')
@@ -163,6 +171,7 @@ class ORC():
         self.__writ_result(self.__text_args)
 
     """Рисует квадрат и запоминает начальное положение мыши"""
+
     def __press_mous(self, event) -> None:
         if self.__x == 0 and self.__y == 0:
             self.__x = event.x
@@ -177,6 +186,7 @@ class ORC():
                                           tag='circle')
 
     """Высчитывает положение окна"""
+
     def __held_mouse(self, event) -> None:
         if self.__x != 0 and self.__y != 0:
             #########################################
@@ -208,8 +218,7 @@ class ORC():
 
 
 if __name__ == "__main__":
-    #pyinstaller -F -w Orc.pyw
+    # pyinstaller -F -w Orc.pyw
     Or = ORC()
     ph = Or.search_desktop()
     print(ph)
-    
