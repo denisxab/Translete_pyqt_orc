@@ -13,7 +13,7 @@ PyQt5==5.13.1
 PyQt5-sip==12.7.0
 pytesseract==0.2.7
 requests==2.7.0
-setuptools==40.8.0
+setuptools==65.5.1
 six==1.13.0
 soupsieve==1.9.5
 threaded==4.0.8
